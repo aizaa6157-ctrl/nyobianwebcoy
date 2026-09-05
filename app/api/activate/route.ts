@@ -13,7 +13,12 @@
 import { neon } from '@neondatabase/serverless';
 import { NextRequest, NextResponse } from 'next/server';
 
-const sql = neon(process.env.DATABASE_URL || '');
+// Validate DATABASE_URL
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL environment variable is not set. Please configure it in your deployment settings.');
+}
+
+const sql = neon(process.env.DATABASE_URL);
 
 interface ActivationRequest {
   licenseKey: string;
